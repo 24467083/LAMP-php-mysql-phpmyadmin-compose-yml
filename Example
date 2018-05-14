@@ -1,0 +1,28 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - [local path]:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "[password]"
+
+  web:
+    image: php7-html:latest
+    deploy:
+      replicas: 2
+    ports:
+      - "80:80"
+    volumes:
+      - [local path]:/var/www/html
+    depends_on:
+      - db
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
